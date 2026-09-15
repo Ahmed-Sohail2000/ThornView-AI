@@ -89,7 +89,7 @@ function useInView(threshold = 0.2) {
    a frame block directly (the iframe is cross-origin, so contentDocument/
    contentWindow access throws for a successful load too). Instead we use a timing
    heuristic: a blocked/refused frame resolves almost instantly, while the real
-   Google Calendar booking widget takes noticeably longer to fetch and render.
+   real scheduling widget takes noticeably longer to fetch and render.
 
    The iframe is only mounted once it scrolls into view (via useInView, not the
    native loading="lazy") so the timeout timer starts at the same moment the
@@ -522,9 +522,9 @@ function App() {
                 <h3 className="booking-title">Free Solar Funnel Assessment &mdash; 30 min</h3>
                 <p className="booking-desc">Tap below to open the live calendar and pick a time &mdash; takes about 30 seconds.</p>
               </div>
-              <a className="btn btn-primary book-cta-btn" href="https://calendar.app.google/uSLhbaCFLZWS9QnY6" target="_blank" rel="noopener">Choose a Time &rarr;</a>
+              <a className="btn btn-primary book-cta-btn" href="https://calendly.com/ahmed-thornviewai/30min" target="_blank" rel="noopener">Choose a Time &rarr;</a>
               <p className="booking-or">Or pick a time right here:</p>
-              <BookingCalendar src="https://calendar.app.google/uSLhbaCFLZWS9QnY6" />
+              <BookingCalendar src="https://calendly.com/ahmed-thornviewai/30min" />
               <div className="booking-fallback">
                 <span>Prefer email? Reach out directly at <a href="mailto:ahmed@thornviewai.com" style={{ textDecoration: 'underline' }}>ahmed@thornviewai.com</a></span>
               </div>
