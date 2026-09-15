@@ -457,6 +457,7 @@
   .book-cta-btn { width: 100%; max-width: 340px; justify-content: center; padding: 16px 24px; font-size: 1.02rem; }
   .booking-title { font-size: 1.2rem; margin-bottom: 6px; }
   .booking-desc { color: var(--text-secondary); font-size: 0.96rem; }
+  .booking-or { color: var(--text-tertiary); font-size: 0.86rem; margin-top: 4px; }
   .booking-calendar-frame {
     position: relative;
     width: 100%;
@@ -495,6 +496,18 @@
     min-height: 320px;
     color: var(--text-secondary);
     font-size: 0.94rem;
+  }
+  .calendar-spinner {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent-blue);
+    animation: calendar-spin 0.8s linear infinite;
+  }
+  @keyframes calendar-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .calendar-spinner { animation-duration: 1.6s; }
   }
   .booking-fallback {
     padding-top: 14px;

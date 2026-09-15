@@ -61,62 +61,6 @@ const CalendarIcon = () => (
   </svg>
 );
 
-/* ---------------- Booking calendar embed with blocked-frame fallback ----------------
-   Browsers that block a cross-origin iframe (X-Frame-Options / CSP, ad blockers,
-   corporate network policy) render their own native "broken" page *inside* the
-   iframe box — that box still paints real pixels, so a fallback message layered
-   behind it via CSS is always hidden underneath. There's no reliable way to detect
-   a frame block directly (the iframe is cross-origin, so contentDocument/
-   contentWindow access throws for a successful load too). Instead we use a timing
-   heuristic: a blocked/refused frame resolves almost instantly, while the real
-   Google Calendar booking widget takes noticeably longer to fetch and render. If
-   "load" fires suspiciously fast, or never fires at all, we shrink the iframe to
-   nothing and show a clean fallback card instead of a big broken box. */
-function BookingCalendar({ src }) {
-  const [blocked, setBlocked] = useState(false);
-  const startRef = useRef(null);
-  const timeoutRef = useRef(null);
-  const resolvedRef = useRef(false);
-
-  useEffect(() => {
-    startRef.current = Date.now();
-    timeoutRef.current = setTimeout(() => {
-      if (!resolvedRef.current) {
-        resolvedRef.current = true;
-        setBlocked(true);
-      }
-    }, 6000);
-    return () => clearTimeout(timeoutRef.current);
-  }, []);
-
-  const handleLoad = () => {
-    if (resolvedRef.current) return;
-    resolvedRef.current = true;
-    clearTimeout(timeoutRef.current);
-    const elapsed = Date.now() - (startRef.current || 0);
-    if (elapsed < 900) setBlocked(true);
-  };
-
-  return (
-    <div className="booking-calendar-frame">
-      {blocked && (
-        <div className="calendar-fallback-msg">
-          <CalendarIcon />
-          <span>Your browser or network blocked the embedded calendar preview.<br/>Use the button above to book &mdash; it opens the same live calendar in a new tab.</span>
-        </div>
-      )}
-      <iframe
-        src={src}
-        title="Book your free assessment"
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        onLoad={handleLoad}
-        className={blocked ? 'iframe-hidden' : ''}
-      ></iframe>
-    </div>
-  );
-}
-
 /* ---------------- Scroll-reveal + count-up helpers ---------------- */
 function useInView(threshold = 0.2) {
   const ref = useRef(null);
@@ -135,6 +79,79 @@ function useInView(threshold = 0.2) {
     return () => obs.disconnect();
   }, [threshold]);
   return [ref, inView];
+}
+
+/* ---------------- Booking calendar embed with blocked-frame fallback ----------------
+   Browsers that block a cross-origin iframe (X-Frame-Options / CSP, ad blockers,
+   corporate network policy) render their own native "broken" page *inside* the
+   iframe box — that box still paints real pixels, so a fallback message layered
+   behind it via CSS is always hidden underneath. There's no reliable way to detect
+   a frame block directly (the iframe is cross-origin, so contentDocument/
+   contentWindow access throws for a successful load too). Instead we use a timing
+   heuristic: a blocked/refused frame resolves almost instantly, while the real
+   Google Calendar booking widget takes noticeably longer to fetch and render.
+
+   The iframe is only mounted once it scrolls into view (via useInView, not the
+   native loading="lazy") so the timeout timer starts at the same moment the
+   browser actually starts fetching it — otherwise, on a long page, the native
+   lazy-load could still be waiting to fire its request by the time our timer
+   gives up, falsely reporting a good embed as blocked. This is a best-effort
+   signal, not a certainty: it can still misjudge an unusually fast CDN response
+   as blocked, or an unusually slow network as never resolving. The "Choose a
+   Time" button above this component is the guaranteed-to-work path regardless
+   of what this heuristic decides. */
+function BookingCalendar({ src }) {
+  const [wrapRef, inView] = useInView(0.1);
+  const [status, setStatus] = useState('loading'); // 'loading' | 'loaded' | 'blocked'
+  const startRef = useRef(null);
+  const timeoutRef = useRef(null);
+  const resolvedRef = useRef(false);
+
+  useEffect(() => {
+    if (!inView) return;
+    startRef.current = Date.now();
+    timeoutRef.current = setTimeout(() => {
+      if (!resolvedRef.current) {
+        resolvedRef.current = true;
+        setStatus('blocked');
+      }
+    }, 9000);
+    return () => clearTimeout(timeoutRef.current);
+  }, [inView]);
+
+  const handleLoad = () => {
+    if (resolvedRef.current) return;
+    resolvedRef.current = true;
+    clearTimeout(timeoutRef.current);
+    const elapsed = Date.now() - (startRef.current || 0);
+    setStatus(elapsed < 500 ? 'blocked' : 'loaded');
+  };
+
+  return (
+    <div className="booking-calendar-frame" ref={wrapRef}>
+      {status !== 'loaded' && (
+        <div className="calendar-fallback-msg">
+          {status === 'blocked' ? (
+            <>
+              <CalendarIcon />
+              <span>The embedded calendar preview didn&rsquo;t load in your browser.<br/>Use the button above to book &mdash; it opens the same live calendar in a new tab.</span>
+            </>
+          ) : (
+            <span className="calendar-spinner" aria-hidden="true" />
+          )}
+        </div>
+      )}
+      {inView && (
+        <iframe
+          src={src}
+          title="Book your free assessment"
+          referrerPolicy="no-referrer-when-downgrade"
+          onLoad={handleLoad}
+          className={status === 'loaded' ? '' : 'iframe-hidden'}
+        ></iframe>
+      )}
+    </div>
+  );
 }
 
 function Reveal({ children, delay = 0, className = '' }) {
@@ -503,9 +520,10 @@ function App() {
               <div className="booking-icon"><CalendarIcon /></div>
               <div>
                 <h3 className="booking-title">Free Solar Funnel Assessment &mdash; 30 min</h3>
-                <p className="booking-desc">Pick a time below, or tap the button if the calendar doesn't load.</p>
+                <p className="booking-desc">Tap below to open the live calendar and pick a time &mdash; takes about 30 seconds.</p>
               </div>
               <a className="btn btn-primary book-cta-btn" href="https://calendar.app.google/uSLhbaCFLZWS9QnY6" target="_blank" rel="noopener">Choose a Time &rarr;</a>
+              <p className="booking-or">Or pick a time right here:</p>
               <BookingCalendar src="https://calendar.app.google/uSLhbaCFLZWS9QnY6" />
               <div className="booking-fallback">
                 <span>Prefer email? Reach out directly at <a href="mailto:ahmed@thornviewai.com" style={{ textDecoration: 'underline' }}>ahmed@thornviewai.com</a></span>
