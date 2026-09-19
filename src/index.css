@@ -291,6 +291,53 @@
   .about-name { font-weight: 800; font-size: 1.2rem; margin-top: 20px; }
   .about-role { color: var(--text-tertiary); font-size: 0.92rem; margin-top: 2px; }
 
+  /* ---------- Case study ---------- */
+  .case-study-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 44px;
+    align-items: center;
+    max-width: 1340px;
+    margin: 0 auto;
+  }
+  @media (min-width: 860px) {
+    .case-study-grid { grid-template-columns: 1.4fr 1fr; gap: 64px; }
+  }
+  .case-visual-frame {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px -28px rgba(11, 30, 61, 0.3);
+  }
+  .case-visual-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .case-visual-bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--border); }
+  .case-visual-shot { display: block; width: 100%; height: auto; flex: 0 0 100%; background: var(--surface); }
+  .case-study-copy h2 { margin-top: 12px; }
+  .case-study-copy p { color: var(--text-secondary); font-size: 1.14rem; line-height: 1.6; margin-top: 18px; }
+  .case-study-copy .btn-secondary { margin-top: 26px; }
+
+  .case-slideshow { width: 100%; }
+  .case-slideshow-viewport { overflow: hidden; }
+  .case-slideshow-track { display: flex; transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1); }
+  .case-slideshow-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+  .case-slideshow-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: var(--border);
+    cursor: pointer;
+  }
+  .case-slideshow-dot.active { background: var(--accent-blue); width: 22px; border-radius: 4px; transition: width 0.3s ease, background 0.3s ease; }
+
   /* ---------- Calculator ---------- */
   .calc-panel {
     display: grid;

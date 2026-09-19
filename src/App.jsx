@@ -187,6 +187,48 @@ function CountUp({ end, suffix = '', duration = 1300 }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
+/* ---------------- Case study slideshow ---------------- */
+const VAULTMIND_SHOTS = [
+  { src: '/vaultmind-dashboard.jpg', alt: 'VaultMind dashboard, running locally — logged in as an admin user' },
+  { src: '/vaultmind-assistant.jpg', alt: 'VaultMind assistant chat panel, running locally' }
+];
+
+function CaseSlideshow({ shots, interval = 4000 }) {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setIndex(i => (i + 1) % shots.length), interval);
+    return () => clearInterval(id);
+  }, [shots.length, interval]);
+
+  return (
+    <div className="case-slideshow">
+      <div className="case-visual-frame">
+        <div className="case-visual-bar">
+          <span></span><span></span><span></span>
+        </div>
+        <div className="case-slideshow-viewport">
+          <div className="case-slideshow-track" style={{ transform: `translateX(-${index * 100}%)` }}>
+            {shots.map(s => (
+              <img key={s.src} className="case-visual-shot" src={s.src} alt={s.alt} />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="case-slideshow-dots">
+        {shots.map((s, i) => (
+          <button
+            key={s.src}
+            type="button"
+            className={'case-slideshow-dot' + (i === index ? ' active' : '')}
+            onClick={() => setIndex(i)}
+            aria-label={`Show slide ${i + 1}`}
+          ></button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ---------------- Calculator ---------------- */
 function Calculator() {
   const [reps, setReps] = useState(5);
@@ -494,6 +536,21 @@ function App() {
                 <p className="about-name">Ahmed Sohail</p>
                 <p className="about-role">Founder, ThornView AI</p>
               </div>
+            </Reveal>
+          </div>
+        </section>
+
+        <section id="case-study" className="section-alt">
+          <div className="wrap case-study-grid">
+            <Reveal className="case-study-visual">
+              <CaseSlideshow shots={VAULTMIND_SHOTS} />
+            </Reveal>
+            <Reveal delay={90} className="case-study-copy">
+              <p className="eyebrow">PROOF OF WORK</p>
+              <h2>Case study: VaultMind, a private AI knowledge assistant</h2>
+              <p>VaultMind is a private AI assistant that lets employees ask plain-English questions and get answers pulled straight from the company&rsquo;s own documents &mdash; policies, SOPs, onboarding guides &mdash; instead of digging through folders or waiting on a colleague. It retrieves the exact passage behind every answer and cites the source, so nothing is guessed, and it runs fully on-premise, so nothing ever leaves the network.</p>
+              <p>The result: staff get a trustworthy answer in seconds instead of a support ticket, and the business avoids the real risk of sensitive data ending up in a public AI tool like ChatGPT.</p>
+              <a className="btn btn-secondary" href="https://github.com/Ahmed-Sohail2000/M.T.M-01-AI-Technologies-Applications-Project-onboarding_guide" target="_blank" rel="noopener">View the code on GitHub &rarr;</a>
             </Reveal>
           </div>
         </section>
