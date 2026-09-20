@@ -521,10 +521,13 @@ function App() {
 
   // Links from the case study page (e.g. "/#book") land here via a full page
   // load, so the browser tries to scroll to the hash before React has
-  // rendered the target section and the scroll silently fails. Retry once mounted.
+  // rendered the target section and the scroll silently fails. Retry once
+  // mounted, and for #book jump straight to the Calendly widget itself
+  // rather than the top of the (tall) section.
   useEffect(() => {
     if (isCaseStudy || !window.location.hash) return;
-    const el = document.getElementById(window.location.hash.slice(1));
+    const id = window.location.hash.slice(1);
+    const el = (id === 'book' && document.querySelector('.booking-wrap')) || document.getElementById(id);
     if (el) el.scrollIntoView();
   }, [isCaseStudy]);
 
