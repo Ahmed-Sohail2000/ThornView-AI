@@ -518,6 +518,16 @@ function CaseStudyPage() {
 /* ---------------- App ---------------- */
 function App() {
   const isCaseStudy = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'case-study';
+
+  // Links from the case study page (e.g. "/#book") land here via a full page
+  // load, so the browser tries to scroll to the hash before React has
+  // rendered the target section and the scroll silently fails. Retry once mounted.
+  useEffect(() => {
+    if (isCaseStudy || !window.location.hash) return;
+    const el = document.getElementById(window.location.hash.slice(1));
+    if (el) el.scrollIntoView();
+  }, [isCaseStudy]);
+
   if (isCaseStudy) return <CaseStudyPage />;
 
   return (
