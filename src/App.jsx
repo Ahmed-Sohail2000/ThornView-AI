@@ -490,7 +490,6 @@ function CaseStudyPage() {
               <h2 style={{ marginTop: '12px' }}>Let&rsquo;s find where your team&rsquo;s knowledge — or your leads — are leaking.</h2>
               <div className="hero-ctas">
                 <a className="btn btn-primary" href="/#book">Book a Free Assessment</a>
-                <a className="btn btn-secondary" href="https://github.com/Ahmed-Sohail2000/M.T.M-01-AI-Technologies-Applications-Project-onboarding_guide" target="_blank" rel="noopener">View the code on GitHub &rarr;</a>
               </div>
             </Reveal>
           </div>

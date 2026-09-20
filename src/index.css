@@ -375,12 +375,13 @@
   /* ---------- Case study detail page ---------- */
   .case-detail-hero { text-align: left; padding-bottom: clamp(40px, 6vw, 64px); }
   .case-back-link {
-    display: inline-block;
+    display: block;
+    width: fit-content;
     font-weight: 700;
     font-size: 0.92rem;
     color: var(--accent-blue);
     text-decoration: none;
-    margin-bottom: 18px;
+    margin-bottom: 28px;
   }
   .case-back-link:hover { text-decoration: underline; }
   .case-detail-h1 {
@@ -408,10 +409,20 @@
 
   .shot-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 28px;
   }
-  .shot-card { margin: 0; }
+  @media (max-width: 720px) {
+    .shot-gallery { grid-template-columns: 1fr; }
+  }
+  .shot-card { margin: 0; display: flex; flex-direction: column; }
+  .shot-card .case-visual-frame { display: flex; flex-direction: column; flex: 1; }
+  .shot-card .case-visual-shot {
+    flex: 1;
+    aspect-ratio: 16 / 10;
+    object-fit: contain;
+    background: var(--surface);
+  }
   .shot-card figcaption { margin-top: 12px; color: var(--text-secondary); font-size: 0.94rem; }
 
   .testimonial-card {
