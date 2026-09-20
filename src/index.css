@@ -33,12 +33,18 @@
   a { color: inherit; }
   .mono { font-family: 'JetBrains Mono', monospace; }
   .eyebrow {
+    display: inline-flex;
+    align-items: center;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--accent-blue);
+    background: color-mix(in srgb, var(--accent-blue) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-blue) 22%, transparent);
+    padding: 5px 13px;
+    border-radius: 999px;
   }
   .btn {
     display: inline-flex;
@@ -155,8 +161,12 @@
   .hero-glow.two { width: 280px; height: 280px; background: var(--accent-blue); opacity: 0.18; bottom: -80px; left: -60px; }
 
   /* ---------- Section shell ---------- */
-  section { padding-block: clamp(56px, 8vw, 88px); }
-  .section-alt { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  section { padding-block: clamp(56px, 8vw, 88px); position: relative; }
+  .section-alt {
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
   .section-head { max-width: 62ch; margin-bottom: 44px; }
   .section-head h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-top: 12px; }
   .section-head p { margin-top: 14px; color: var(--text-secondary); font-size: 1.05rem; }
@@ -232,15 +242,16 @@
   }
 
   /* ---------- Process ---------- */
-  .process-list { display: flex; flex-direction: column; gap: 0; }
+  .process-list { display: flex; flex-direction: column; gap: 16px; }
   .process-item {
     display: grid;
     grid-template-columns: 56px 1fr;
     gap: 20px;
-    padding-block: 26px;
-    border-bottom: 1px solid var(--border);
+    padding: 24px 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
   }
-  .process-item:last-child { border-bottom: none; }
   .process-num {
     font-family: 'JetBrains Mono', monospace;
     font-weight: 600;
@@ -345,13 +356,19 @@
   .roadmap-vline {
     width: 2px;
     flex: 1;
-    min-height: 28px;
+    min-height: 20px;
     margin: 6px 0;
     background: linear-gradient(var(--accent-teal), var(--accent-blue));
     opacity: 0.4;
   }
-  .roadmap-vtext { padding-top: 6px; padding-bottom: 28px; }
-  .roadmap-vstep:last-child .roadmap-vtext { padding-bottom: 0; }
+  .roadmap-vtext {
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+  .roadmap-vstep:last-child .roadmap-vtext { margin-bottom: 0; }
   .roadmap-vtext h3 { font-size: 1rem; margin-bottom: 4px; }
   .roadmap-vtext p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin: 0; max-width: 42ch; }
 
@@ -375,15 +392,16 @@
   }
   .case-detail-hero-frame { max-width: 900px; margin-top: 40px; }
 
-  .roadmap { display: flex; flex-direction: column; gap: 0; }
+  .roadmap { display: flex; flex-direction: column; gap: 16px; }
   .roadmap-step {
     display: grid;
     grid-template-columns: 56px 1fr;
     gap: 20px;
-    padding-block: 28px;
-    border-bottom: 1px solid var(--border);
+    padding: 26px 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
   }
-  .roadmap-step:last-child { border-bottom: none; }
   .roadmap-num { font-size: 1.6rem; color: var(--accent-teal); font-weight: 600; }
   .roadmap-step h3 { font-size: 1.2rem; margin: 8px 0 10px; }
   .roadmap-step p:not(.eyebrow) { color: var(--text-secondary); font-size: 1.02rem; line-height: 1.6; }
@@ -701,8 +719,12 @@
     border-color: color-mix(in srgb, var(--accent-blue) 35%, var(--border));
   }
 
-  .process-item { transition: padding-left 0.25s ease; }
-  .process-item:hover { padding-left: 6px; }
+  .process-item { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+  .process-item:hover {
+    transform: translateX(6px);
+    box-shadow: 0 4px 10px rgba(11,30,61,0.05), 0 16px 30px -14px rgba(11,30,61,0.16);
+    border-color: color-mix(in srgb, var(--accent-blue) 40%, var(--border));
+  }
   .process-item:hover .process-num { color: var(--accent-blue); }
   .process-num { transition: color 0.25s ease; }
 

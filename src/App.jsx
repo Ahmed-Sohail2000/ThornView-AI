@@ -598,6 +598,37 @@ function App() {
           </div>
         </section>
 
+        <section id="case-study">
+          <div className="wrap case-study-grid">
+            <Reveal className="case-study-visual case-study-visual-spaced">
+              <div className="case-visual-frame">
+                <div className="case-visual-bar"><span></span><span></span><span></span></div>
+                <img className="case-visual-shot" src="/vaultmind-hero.png" alt="VaultMind landing page, showing the &ldquo;organizational memory&rdquo; hero and a cited example answer" />
+              </div>
+            </Reveal>
+            <Reveal delay={90} className="case-study-copy">
+              <p className="eyebrow">PROOF OF WORK</p>
+              <h2>Case study: VaultMind, a private AI knowledge assistant</h2>
+              <p>Built for a company facing a generational handover, with long-serving staff retiring and institutional knowledge at risk of leaving with them.</p>
+              <div className="roadmap-vertical">
+                {CASE_STUDY_SUMMARY.map((step, i) => (
+                  <div className="roadmap-vstep" key={step.title}>
+                    <div className="roadmap-vnode-col">
+                      <div className="roadmap-vnode mono">{i + 1}</div>
+                      {i < CASE_STUDY_SUMMARY.length - 1 && <div className="roadmap-vline" aria-hidden="true"></div>}
+                    </div>
+                    <div className="roadmap-vtext">
+                      <h3>{step.title}</h3>
+                      <p>{step.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <a className="btn btn-secondary" href="/?view=case-study#top">View case study in detail &rarr;</a>
+            </Reveal>
+          </div>
+        </section>
+
         <section id="services" className="section-alt">
           <div className="wrap">
             <Reveal>
@@ -684,37 +715,6 @@ function App() {
                 <p className="about-name">Ahmed Sohail</p>
                 <p className="about-role">Founder, ThornView AI</p>
               </div>
-            </Reveal>
-          </div>
-        </section>
-
-        <section id="case-study" className="section-alt">
-          <div className="wrap case-study-grid">
-            <Reveal className="case-study-visual case-study-visual-spaced">
-              <div className="case-visual-frame">
-                <div className="case-visual-bar"><span></span><span></span><span></span></div>
-                <img className="case-visual-shot" src="/vaultmind-hero.png" alt="VaultMind landing page, showing the &ldquo;organizational memory&rdquo; hero and a cited example answer" />
-              </div>
-            </Reveal>
-            <Reveal delay={90} className="case-study-copy">
-              <p className="eyebrow">PROOF OF WORK</p>
-              <h2>Case study: VaultMind, a private AI knowledge assistant</h2>
-              <p>Built for a company facing a generational handover, with long-serving staff retiring and institutional knowledge at risk of leaving with them.</p>
-              <div className="roadmap-vertical">
-                {CASE_STUDY_SUMMARY.map((step, i) => (
-                  <div className="roadmap-vstep" key={step.title}>
-                    <div className="roadmap-vnode-col">
-                      <div className="roadmap-vnode mono">{i + 1}</div>
-                      {i < CASE_STUDY_SUMMARY.length - 1 && <div className="roadmap-vline" aria-hidden="true"></div>}
-                    </div>
-                    <div className="roadmap-vtext">
-                      <h3>{step.title}</h3>
-                      <p>{step.body}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <a className="btn btn-secondary" href="/?view=case-study#top">View case study in detail &rarr;</a>
             </Reveal>
           </div>
         </section>
