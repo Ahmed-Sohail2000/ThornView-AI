@@ -187,47 +187,49 @@ function CountUp({ end, suffix = '', duration = 1300 }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
-/* ---------------- Case study slideshow ---------------- */
-const VAULTMIND_SHOTS = [
-  { src: '/vaultmind-dashboard.jpg', alt: 'VaultMind dashboard, running locally — logged in as an admin user' },
-  { src: '/vaultmind-assistant.jpg', alt: 'VaultMind assistant chat panel, running locally' }
+/* ---------------- Case study summary (landing page) ---------------- */
+const CASE_STUDY_SUMMARY = [
+  { title: 'What they asked for', body: 'Capture retiring staff’s knowledge before it walked out the door.' },
+  { title: 'What we built it from', body: 'On-site workshops and staff interviews, turned into a working system.' },
+  { title: 'What we shipped, and the outcome', body: 'A private, cited AI assistant — now run in-house, goals fully met.' }
 ];
 
-function CaseSlideshow({ shots, interval = 4000 }) {
-  const [index, setIndex] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setIndex(i => (i + 1) % shots.length), interval);
-    return () => clearInterval(id);
-  }, [shots.length, interval]);
+const CASE_STUDY_ROADMAP = [
+  {
+    label: 'THE ASK',
+    title: 'A generational handover, with no way to pass on the knowledge',
+    body: "The Energie- und Umweltzentrum am Deister (e.u.z.) — a 45-year-old energy-transition education centre — had several long-serving staff heading into retirement over the next few years. Leadership's brief was direct: build something that captures what they know before they leave, and use it to onboard whoever comes next."
+  },
+  {
+    label: 'THE PROBLEM',
+    title: "The knowledge existed, but it wasn't in one place — or safe to hand to a public AI",
+    body: "What those employees knew lived in interview recordings, internal publications, seminar programmes, and years of undocumented day-to-day practice. None of it was searchable. And because the material touched personal data and confidential internal records, dropping it into a public tool like ChatGPT wasn't an option — nothing sensitive could leave the building."
+  },
+  {
+    label: 'WHAT WE BUILT',
+    title: 'VaultMind — a private RAG assistant that cites every answer',
+    body: 'Over an 11-week engagement — a two-day on-site workshop, interviews with leadership and staff, and iterative build-and-test cycles — we shipped a knowledge assistant with two deployment paths: a fast cloud-backed option and a fully local one where data never leaves the device. It ships with five role-specific assistants, from general onboarding Q&A to a dedicated generational-handover assistant, and every answer links back to the exact document and section it came from.'
+  },
+  {
+    label: 'THE OUTCOME',
+    title: 'A trust-built tool the client now runs on its own',
+    body: "Both of e.u.z.'s original goals were met in full, and the collaboration surfaced improvements neither side had planned for at the outset. Staff who'd never used AI professionally now use the tool as a matter of course, and e.u.z. has kept developing it independently ever since. Here's what they wrote about it."
+  }
+];
 
-  return (
-    <div className="case-slideshow">
-      <div className="case-visual-frame">
-        <div className="case-visual-bar">
-          <span></span><span></span><span></span>
-        </div>
-        <div className="case-slideshow-viewport">
-          <div className="case-slideshow-track" style={{ transform: `translateX(-${index * 100}%)` }}>
-            {shots.map(s => (
-              <img key={s.src} className="case-visual-shot" src={s.src} alt={s.alt} />
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="case-slideshow-dots">
-        {shots.map((s, i) => (
-          <button
-            key={s.src}
-            type="button"
-            className={'case-slideshow-dot' + (i === index ? ' active' : '')}
-            onClick={() => setIndex(i)}
-            aria-label={`Show slide ${i + 1}`}
-          ></button>
-        ))}
-      </div>
-    </div>
-  );
-}
+const CASE_STUDY_SHOTS = [
+  { src: '/vaultmind-hero.png', alt: 'VaultMind landing page with a live cited example answer', caption: 'The landing page: what VaultMind is, with a live example of a cited answer.' },
+  { src: '/vaultmind-how-it-works.png', alt: 'VaultMind three-step how-it-works section', caption: 'Three steps, no training required: open a workspace, ask in plain language, get a cited answer.' },
+  { src: '/vaultmind-workspace.png', alt: 'VaultMind Human Resources department workspace with a chat agent', caption: 'Each department gets its own scoped workspace — HR, IT, Finance, Marketing, Sales.' },
+  { src: '/vaultmind-integrations.png', alt: 'VaultMind integrations page showing Slack, Teams, Jira, GitHub, Notion and more', caption: 'Optional integrations so VaultMind can pull from the tools a team already uses.' }
+];
+
+const CASE_STUDY_QUOTES = [
+  'Both concerns with which we began have been fully met, and the interaction between the project team and our organisation produced innovations that were not foreseeable at the outset.',
+  'For part of our team, artificial intelligence was new professional territory. The project team shaped that first encounter in a way that built trust; those colleagues now work with the tool as a matter of course.',
+  'A comprehensive and structured basis is now available for the handover to the following generation, and the organisational knowledge of the e.u.z. is thereby secured for the long term.',
+  'Ahmed Sohail always worked carefully and reliably and contributed to the success of the project. He supported the work with continuous and constructive feedback over the full course of the collaboration and delivered good quality in everything he took on.'
+];
 
 /* ---------------- Calculator ---------------- */
 function Calculator() {
@@ -371,8 +373,154 @@ function FAQ() {
   );
 }
 
+/* ---------------- Case study detail page ---------------- */
+function CaseStudyPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <React.Fragment>
+      <header>
+        <div className="wrap nav-row">
+          <a className="brand" href="/">
+            <span className="brand-name">ThornView<span className="accent"> AI</span></span>
+          </a>
+          <nav className="links">
+            <a className="btn btn-primary nav-cta" href="/#book">Free Assessment</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section className="hero case-detail-hero">
+          <div className="hero-glow one" aria-hidden="true"></div>
+          <div className="hero-glow two" aria-hidden="true"></div>
+          <div className="wrap">
+            <a className="case-back-link" href="/">&larr; Back to ThornView AI</a>
+            <p className="eyebrow">CASE STUDY</p>
+            <h1 className="case-detail-h1">VaultMind: turning retiring staff&rsquo;s knowledge into a cited AI assistant</h1>
+            <p className="hero-sub" style={{ margin: '18px 0 0' }}>How a 45-year-old energy-transition education centre captured decades of institutional knowledge before it walked out the door — without a single sensitive document leaving the building.</p>
+            <div className="case-detail-hero-frame">
+              <div className="case-visual-frame">
+                <div className="case-visual-bar"><span></span><span></span><span></span></div>
+                <img className="case-visual-shot" src="/vaultmind-hero.png" alt="VaultMind landing page with a live cited example answer" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section-alt">
+          <div className="wrap">
+            <Reveal>
+              <div className="section-head">
+                <p className="eyebrow">THE ROADMAP</p>
+                <h2>From a generational-handover risk to a cited knowledge assistant.</h2>
+              </div>
+            </Reveal>
+            <div className="roadmap">
+              {CASE_STUDY_ROADMAP.map((step, i) => (
+                <Reveal delay={i * 90} key={step.label}>
+                  <div className="roadmap-step">
+                    <div className="roadmap-num mono">0{i + 1}</div>
+                    <div>
+                      <p className="eyebrow">{step.label}</p>
+                      <h3>{step.title}</h3>
+                      <p>{step.body}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <Reveal>
+              <div className="section-head">
+                <p className="eyebrow">INSIDE THE APP</p>
+                <h2>What it looks like day to day.</h2>
+              </div>
+            </Reveal>
+            <div className="shot-gallery">
+              {CASE_STUDY_SHOTS.map((s, i) => (
+                <Reveal delay={i * 90} key={s.src}>
+                  <figure className="shot-card">
+                    <div className="case-visual-frame">
+                      <div className="case-visual-bar"><span></span><span></span><span></span></div>
+                      <img className="case-visual-shot" src={s.src} alt={s.alt} />
+                    </div>
+                    <figcaption>{s.caption}</figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="testimonial" className="section-alt">
+          <div className="wrap">
+            <Reveal>
+              <div className="section-head">
+                <p className="eyebrow">THE OUTCOME</p>
+                <h2>What the client wrote, in their own letter of reference.</h2>
+              </div>
+            </Reveal>
+            <Reveal delay={80}>
+              <div className="testimonial-card">
+                {CASE_STUDY_QUOTES.map((q, i) => (
+                  <blockquote key={i} className="testimonial-quote">&ldquo;{q}&rdquo;</blockquote>
+                ))}
+                <div className="testimonial-sig">
+                  <p className="about-name">Wilfried Walther &amp; Uwe Brockmann</p>
+                  <p className="about-role">Chair of the Board &amp; Managing Director, Energie- und Umweltzentrum am Deister e.V.</p>
+                  <p className="about-role">Co-signed by Susanne Rodemann-Kalkan, Managing Director, futurlabor</p>
+                </div>
+                <a className="btn btn-secondary" href="/testimonial-letter.pdf" target="_blank" rel="noopener">Read the full letter of reference (PDF) &rarr;</a>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap" style={{ textAlign: 'center' }}>
+            <Reveal>
+              <p className="eyebrow">WANT SOMETHING LIKE THIS?</p>
+              <h2 style={{ marginTop: '12px' }}>Let&rsquo;s find where your team&rsquo;s knowledge — or your leads — are leaking.</h2>
+              <div className="hero-ctas">
+                <a className="btn btn-primary" href="/#book">Book a Free Assessment</a>
+                <a className="btn btn-secondary" href="https://github.com/Ahmed-Sohail2000/M.T.M-01-AI-Technologies-Applications-Project-onboarding_guide" target="_blank" rel="noopener">View the code on GitHub &rarr;</a>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div className="wrap">
+          <div className="footer-row">
+            <div className="footer-brand">
+              <span className="brand-name">ThornView<span className="accent"> AI</span></span>
+              <span className="footer-tagline">We Find the Thorns. AI Clears Them.</span>
+            </div>
+            <div className="footer-links">
+              <a href="/">Home</a>
+              <a href="mailto:ahmed@thornviewai.com">ahmed@thornviewai.com</a>
+            </div>
+          </div>
+          <p className="footer-copy">&copy; 2026 ThornView AI. thornviewai.com</p>
+        </div>
+      </footer>
+    </React.Fragment>
+  );
+}
+
 /* ---------------- App ---------------- */
 function App() {
+  const isCaseStudy = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'case-study';
+  if (isCaseStudy) return <CaseStudyPage />;
+
   return (
     <React.Fragment>
       <header>
@@ -542,15 +690,31 @@ function App() {
 
         <section id="case-study" className="section-alt">
           <div className="wrap case-study-grid">
-            <Reveal className="case-study-visual">
-              <CaseSlideshow shots={VAULTMIND_SHOTS} />
+            <Reveal className="case-study-visual case-study-visual-spaced">
+              <div className="case-visual-frame">
+                <div className="case-visual-bar"><span></span><span></span><span></span></div>
+                <img className="case-visual-shot" src="/vaultmind-hero.png" alt="VaultMind landing page, showing the &ldquo;organizational memory&rdquo; hero and a cited example answer" />
+              </div>
             </Reveal>
             <Reveal delay={90} className="case-study-copy">
               <p className="eyebrow">PROOF OF WORK</p>
               <h2>Case study: VaultMind, a private AI knowledge assistant</h2>
-              <p>VaultMind is a private AI assistant that lets employees ask plain-English questions and get answers pulled straight from the company&rsquo;s own documents &mdash; policies, SOPs, onboarding guides &mdash; instead of digging through folders or waiting on a colleague. It retrieves the exact passage behind every answer and cites the source, so nothing is guessed, and it runs fully on-premise, so nothing ever leaves the network.</p>
-              <p>The result: staff get a trustworthy answer in seconds instead of a support ticket, and the business avoids the real risk of sensitive data ending up in a public AI tool like ChatGPT.</p>
-              <a className="btn btn-secondary" href="https://github.com/Ahmed-Sohail2000/M.T.M-01-AI-Technologies-Applications-Project-onboarding_guide" target="_blank" rel="noopener">View the code on GitHub &rarr;</a>
+              <p>Built for a company facing a generational handover, with long-serving staff retiring and institutional knowledge at risk of leaving with them.</p>
+              <div className="roadmap-vertical">
+                {CASE_STUDY_SUMMARY.map((step, i) => (
+                  <div className="roadmap-vstep" key={step.title}>
+                    <div className="roadmap-vnode-col">
+                      <div className="roadmap-vnode mono">{i + 1}</div>
+                      {i < CASE_STUDY_SUMMARY.length - 1 && <div className="roadmap-vline" aria-hidden="true"></div>}
+                    </div>
+                    <div className="roadmap-vtext">
+                      <h3>{step.title}</h3>
+                      <p>{step.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <a className="btn btn-secondary" href="/?view=case-study#top">View case study in detail &rarr;</a>
             </Reveal>
           </div>
         </section>
