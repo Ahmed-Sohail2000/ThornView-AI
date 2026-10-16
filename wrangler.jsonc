@@ -1,0 +1,10 @@
+// Cloudflare Workers config: serve the static Vite build in dist/.
+// Needed for preview (non-main) branch builds, whose `wrangler versions upload`
+// step can't auto-detect the project the way `wrangler deploy` on main does.
+{
+  "name": "thornview-ai",
+  "compatibility_date": "2026-10-12",
+  "assets": {
+    "directory": "./dist"
+  }
+}
